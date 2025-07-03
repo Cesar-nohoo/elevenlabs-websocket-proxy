@@ -1,6 +1,6 @@
 {
   "name": "elevenlabs-websocket-proxy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WebSocket proxy server for ElevenLabs conversational AI with poor internet handling",
   "main": "server.js",
   "scripts": {
