@@ -5,6 +5,35 @@ const http = require('http');
 const cors = require('cors');
 require('dotenv').config();
 
+// 🔧 DEBUG: Verificar variables de entorno
+console.log('=================== DEBUG DE VARIABLES ===================');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('ELEVENLABS_API_KEY existe:', !!process.env.ELEVENLABS_API_KEY);
+console.log('ELEVENLABS_API_KEY longitud:', process.env.ELEVENLABS_API_KEY?.length || 'undefined');
+console.log('ELEVENLABS_API_KEY primeros 10 chars:', process.env.ELEVENLABS_API_KEY?.substring(0, 10) || 'undefined');
+
+// Verificar todas las variables que empiecen con ELEVEN
+console.log('Todas las variables ELEVEN*:');
+Object.keys(process.env).forEach(key => {
+  if (key.startsWith('ELEVEN')) {
+    console.log(`${key}: ${process.env[key]?.substring(0, 10)}...`);
+  }
+});
+
+// Verificar si hay variables relacionadas con ElevenLabs
+console.log('Todas las variables que contengan "ELEV":', 
+  Object.keys(process.env).filter(key => key.includes('ELEV'))
+);
+
+console.log('Total de variables de entorno:', Object.keys(process.env).length);
+console.log('Primeras 5 variables (para verificar que process.env funciona):');
+Object.keys(process.env).slice(0, 5).forEach(key => {
+  console.log(`${key}: ${process.env[key]?.substring(0, 20)}...`);
+});
+
+console.log('========================= FIN DEBUG =========================');
+
 const app = express();
 const server = http.createServer(app);
 
@@ -121,6 +150,12 @@ async function initializeElevenLabsConnection(clientId, data) {
             use_speaker_boost: true
         }
     } = data;
+
+    // 🔧 DEBUG ADICIONAL: Verificar la API key justo antes de usarla
+    console.log('🔑 DEBUG - Antes de conectar a ElevenLabs:');
+    console.log('API Key existe:', !!process.env.ELEVENLABS_API_KEY);
+    console.log('API Key tipo:', typeof process.env.ELEVENLABS_API_KEY);
+    console.log('API Key primeros chars:', process.env.ELEVENLABS_API_KEY?.substring(0, 10) || 'UNDEFINED');
 
     const elevenLabsWsUrl = `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${agent_id}`;
     
